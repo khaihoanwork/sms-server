@@ -3,9 +3,9 @@ const fs = require("fs");
 // retry
 
 module.exports = (io, socket) => {
-    var clearIntervaled = false;
-    var interval;
     socket.on("message", (msg) => {
+        let clearIntervaled = false;
+        let interval;
         console.log("Server received message: ");
         console.log(msg);
         listotp.push(msg);
@@ -18,7 +18,12 @@ module.exports = (io, socket) => {
         interval = setInterval(() => {
             io.emit("PC message", msg);
         }, 2000);
-
+        // clear interval when receiving event
+        socket.on("client message", (msgC) => {
+            clearInterval(interval);
+            clearIntervaled = true;
+            console.log(msgC);
+        });
         // if client didn't receive event, clear interval
         setTimeout(() => {
             if (!clearIntervaled) {
@@ -30,12 +35,6 @@ module.exports = (io, socket) => {
             } else {
                 console.log("Client received event, interval cleared by client");
             }
-        }, 40000);
-    });
-    // clear interval when receiving event
-    socket.on("client message", (msgC) => {
-        clearInterval(interval);
-        clearIntervaled = true;
-        console.log(msgC);
+        }, 20000);
     });
 };

@@ -5,11 +5,7 @@
 // console.log(arr1);
 
 let interval;
-function createInterval(socket, msg) {
-    interval = setInterval(() => {
-        console.log("emit message");
-    }, 1000);
-}
+
 // clear interval after 10s
 createInterval();
 setTimeout(() => {
