@@ -1,0 +1,26 @@
+{
+  "name": "sms-receive-server",
+  "version": "1.0.0",
+  "description": "\"# sms-server\" \r \"# sms-server\"",
+  "main": "routers.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khaihoanwork/sms-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khaihoanwork/sms-server/issues"
+  },
+  "homepage": "https://github.com/khaihoanwork/sms-server#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^14.3.0",
+    "express": "^4.17.2",
+    "socket.io": "^4.4.1"
+  }
+}
