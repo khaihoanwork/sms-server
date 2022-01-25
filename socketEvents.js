@@ -1,9 +1,11 @@
 const listotp = require("./otp.json");
 const fs = require("fs");
+// retry
 
 module.exports = (io, socket) => {
+    let clearIntervaled = false;
+    let interval;
     socket.on("message", (msg) => {
-        let clearIntervaled = false;
         console.log("Server received message: ");
         console.log(msg);
         listotp.push(msg);
@@ -12,16 +14,11 @@ module.exports = (io, socket) => {
                 console.log(err);
             }
         });
-        // emit every 1s and clear interval
-        let interval = setInterval(() => {
+        //emit every 1s and clear interval
+        interval = setInterval(() => {
             io.emit("PC message", msg);
-        }, 1000);
-        // clear interval when receiving event
-        socket.on("client message", (msgC) => {
-            clearInterval(interval);
-            clearIntervaled = true;
-            console.log(msgC);
-        });
+        }, 2000);
+
         // if client didn't receive event, clear interval
         setTimeout(() => {
             if (!clearIntervaled) {
@@ -30,7 +27,15 @@ module.exports = (io, socket) => {
                     success: false,
                     message: "Client didn't receive event, interval cleared by setTimeout",
                 });
+            } else {
+                console.log("Client received event, interval cleared by client");
             }
-        }, 10000);
+        }, 20000);
+    });
+    // clear interval when receiving event
+    socket.on("client message", (msgC) => {
+        clearInterval(interval);
+        clearIntervaled = true;
+        console.log(msgC);
     });
 };
