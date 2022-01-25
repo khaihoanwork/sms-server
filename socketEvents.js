@@ -26,6 +26,10 @@ module.exports = (io, socket) => {
         setTimeout(() => {
             if (!clearIntervaled) {
                 clearInterval(interval);
+                console.log({
+                    success: false,
+                    message: "Client didn't receive event, interval cleared by setTimeout",
+                });
             }
         }, 10000);
     });
