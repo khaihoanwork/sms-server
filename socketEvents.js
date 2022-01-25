@@ -3,8 +3,8 @@ const fs = require("fs");
 // retry
 
 module.exports = (io, socket) => {
-    let clearIntervaled = false;
-    let interval;
+    var clearIntervaled = false;
+    var interval;
     socket.on("message", (msg) => {
         console.log("Server received message: ");
         console.log(msg);
@@ -30,7 +30,7 @@ module.exports = (io, socket) => {
             } else {
                 console.log("Client received event, interval cleared by client");
             }
-        }, 20000);
+        }, 40000);
     });
     // clear interval when receiving event
     socket.on("client message", (msgC) => {
