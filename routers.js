@@ -2,15 +2,22 @@ var express = require("express");
 var router = express.Router();
 const listOtp = require("./otp.json");
 const fs = require("fs");
-const { set } = require("express/lib/application");
-const currentOpt = {
+const currentOtp = {
     otp: null,
-    set: function (msg) {
+    clientReceive: null,
+    setOtp: function (msg) {
         this.otp = msg;
         return;
     },
-    get: function () {
+    getOtp: function () {
         return this.otp;
+    },
+    setClientReceive: function (state) {
+        this.clientReceive = state;
+        return;
+    },
+    getClientReceive: function () {
+        return this.clientReceive;
     },
 };
 router.use(function timeLog(req, res, next) {
@@ -24,7 +31,8 @@ router.get("/", function (req, res) {
     });
 });
 router.post("/message", function (req, res) {
-    set(req.body);
+    currentOtp.setOtp(req.body);
+    currentOtp.setClientReceive(false);
     listOtp.push(req.body);
     fs.writeFileSync("./otp.json", JSON.stringify(listOtp), "utf8");
     // console.log(req.body);
@@ -34,7 +42,7 @@ router.post("/message", function (req, res) {
 });
 
 router.get("/currentOtp", function (req, res) {
-    const result = currentOpt.get();
+    const result = currentOtp.getOtp();
     if (result) {
         res.send({
             message: "success",
@@ -46,7 +54,14 @@ router.get("/currentOtp", function (req, res) {
             message: "Server current don't receive any OTP",
         });
     }
-    currentOpt.set(null);
+    currentOtp.set(null);
+    currentOtp.setClientReceive(true);
+});
+
+router.get("state", function (req, res) {
+    res.send({
+        clientReceive: currentOtp.getClientReceive(),
+    });
 });
 
 router.get("/listotp", function (req, res) {
