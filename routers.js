@@ -54,7 +54,7 @@ router.get("/currentOtp", function (req, res) {
             message: "Server current don't receive any OTP",
         });
     }
-    currentOtp.set(null);
+    currentOtp.setOtp(null);
     currentOtp.setClientReceive(true);
 });
 
