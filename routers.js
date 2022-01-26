@@ -21,7 +21,11 @@ const currentOtp = {
     },
 };
 router.use(function timeLog(req, res, next) {
-    console.log("Time: ", Date.now());
+    const d = new Date();
+    const time = d.toLocaleString("en-US", {
+        timeZone: "Asia/Ho_Chi_Minh",
+    });
+    console.log("Request Time : " + time);
     next();
 });
 
@@ -41,7 +45,7 @@ router.post("/message", function (req, res) {
     });
 });
 
-router.get("/currentOtp", function (req, res) {
+router.get("/currentotp", function (req, res) {
     const result = currentOtp.getOtp();
     if (result) {
         res.send({
@@ -51,7 +55,8 @@ router.get("/currentOtp", function (req, res) {
     } else {
         // send with status code 404
         res.status(404).send({
-            message: "Server current don't receive any OTP",
+            message:
+                "Server current don't receive any OTP or Client already receive OTP switch to /lastotp to get last OTP",
         });
     }
     currentOtp.setOtp(null);
@@ -82,7 +87,7 @@ router.get("/listotp/:id", function (req, res) {
         });
     }
 });
-router.get("/lastopt", function (req, res) {
+router.get("/lastotp", function (req, res) {
     const lastOtp = listOtp[listOtp.length - 1];
     if (lastOtp) {
         res.send({

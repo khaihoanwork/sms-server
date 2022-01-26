@@ -4,14 +4,9 @@
 // arr1.length = 0;
 // console.log(arr1);
 
-let interval;
-
-// clear interval after 10s
-createInterval();
-setTimeout(() => {
-    setTimeout(() => {
-        clearInterval(interval);
-        console.log("clear interval");
-    }, 10000);
-    console.log("before clear interval");
-}, 5000);
+// log current time with timezone +7 format vietnam
+const d = new Date();
+const time = d.toLocaleString("en-US", {
+    timeZone: "Asia/Ho_Chi_Minh",
+});
+console.log("current time : " + time);
