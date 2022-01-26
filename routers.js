@@ -58,7 +58,7 @@ router.get("/currentOtp", function (req, res) {
     currentOtp.setClientReceive(true);
 });
 
-router.get("state", function (req, res) {
+router.get("/state", function (req, res) {
     res.send({
         clientReceive: currentOtp.getClientReceive(),
     });
