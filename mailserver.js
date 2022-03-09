@@ -13,8 +13,9 @@ function startEmailSever(mail, pass, host) {
   emailSever.on("mail", (mail) => {
     console.log(mail);
   });
-  emailSever.start();
+  // emailSever.start();
   return {
+    start: emailSever.start,
     stop: emailSever.stop,
   };
 }
